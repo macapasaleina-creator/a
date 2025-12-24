@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Love Letter, in Pixels</title>
+
+<!-- Google Font: Fleur De Leah -->
+<link href="https://fonts.googleapis.com/css2?family=Fleur+De+Leah&display=swap" rel="stylesheet">
+
+<style>
+/* RESET & BOX SIZING */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* FULLSCREEN BODY */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    text-align: center;
+    background: #000;
+}
+
+/* Headers with Fleur De Leah + white glow */
+h1 {
+    font-family: 'Fleur De Leah', cursive;
+    font-size: 4rem;
+    color: #ffffff;
+    text-shadow: 0 0 8px #fff, 0 0 12px #fff, 0 0 16px #fff;
+}
+#page1 p, #page2 p {
+    font-family: 'Fleur De Leah', cursive;
+    font-size: 2rem;
+    color: #ffffff;
+    text-shadow: 0 0 8px #fff, 0 0 12px #fff, 0 0 16px #fff;
+}
+
+/* PAGES */
+.page {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#page1 { background-image: url("https://i.imgur.com/881J0y9.jpeg"); }
+#page2 { background-image: url("https://i.imgur.com/3KCmJsF.jpeg"); }
+
+.page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.55);
+    z-index: 0;
+}
+
+.page > * { position: relative; z-index: 1; }
+.active { display: block; }
+
+/* BUTTONS */
+button {
+    padding: 12px 26px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #deb8ce;
+    color: #ffffff;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
+}
+button:hover { background-color: #d1a6be; }
+
+/* TEXT BG (page2) */
+#page2 .text-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 120px;
+    color: rgba(0,0,0,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* LETTER BOX */
+.letter-box {
+    max-width: 800px;
+    margin: auto;
+    background: rgba(62,94,74,0.6);
+    padding: 40px;
+    border-radius: 16px;
+    text-align: left;
+    line-height: 1.8;
+    font-size: 16px;
+    color: #fff;
+    font-family: Georgia, "Times New Roman", serif;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    text-shadow: 0 0 8px rgba(255,255,255,0.4);
+}
+
+/* HEARTS, SPARKLES, FLOWERS, STARS */
+.hearts .heart { position:absolute; bottom:-30px; width:12px; height:12px; background:#fff; opacity:0.8; transform:rotate(45deg); animation:floatUp 6s linear infinite; border-radius:3px;}
+.hearts .heart::before, .hearts .heart::after {content:""; position:absolute; width:12px; height:12px; background:#fff; border-radius:50%;}
+.hearts .heart::before { top:-6px; left:0; }
+.hearts .heart::after { left:6px; top:0; }
+@keyframes floatUp {0% {transform:translateX(0) translateY(0) rotate(45deg); opacity:0.8;} 50% {transform:translateX(20px) translateY(-150px) rotate(45deg); opacity:0.6;}100% {transform:translateX(-20px) translateY(-300px) rotate(45deg); opacity:0;}}
+
+.sparkles .spark {position:absolute; width:4px; height:4px; background:#fff; opacity:0.8; border-radius:50%; animation:sparkle 2s infinite;}
+@keyframes sparkle {0%,100% {transform:scale(1); opacity:0.8;}50% {transform:scale(1.5); opacity:0.2;}}
+
+.flowers .flower {position:absolute; width:8px; height:8px; background:#fff; border-radius:50%; opacity:0.8; animation:bloom 4s infinite ease-in-out;}
+@keyframes bloom {0 {transform:scale(0); opacity:0;}50% {transform:scale(1.2); opacity:0.8;}100% {transform:scale(0); opacity:0;}}
+
+.shooting-star {position:absolute; width:2px; height:80px; background:linear-gradient(45deg,#fff,rgba(255,255,255,0)); opacity:0.8; transform:rotate(45deg); animation:shoot 3s linear infinite;}
+@keyframes shoot {0% {transform:translate(-100px,0) rotate(45deg); opacity:1;}100% {transform:translate(110vw,100vh) rotate(45deg); opacity:0;}}
+
+/* placements */
+.hearts .heart:nth-child(1){left:10%; animation-delay:0s;}
+.hearts .heart:nth-child(2){left:30%; animation-delay:1s;}
+.hearts .heart:nth-child(3){left:50%; animation-delay:2s;}
+.hearts .heart:nth-child(4){left:70%; animation-delay:3s;}
+.hearts .heart:nth-child(5){left:90%; animation-delay:4s;}
+.sparkles .spark:nth-child(1){top:20%; left:15%; animation-delay:0s;}
+.sparkles .spark:nth-child(2){top:40%; left:60%; animation-delay:0.5s;}
+.sparkles .spark:nth-child(3){top:70%; left:30%; animation-delay:1s;}
+.sparkles .spark:nth-child(4){top:50%; left:80%; animation-delay:1.5s;}
+.sparkles .spark:nth-child(5){top:25%; left:50%; animation-delay:2s;}
+.flowers .flower:nth-child(1){top:20%; left:10%; animation-delay:0s;}
+.flowers .flower:nth-child(2){top:40%; left:40%; animation-delay:1s;}
+.flowers .flower:nth-child(3){top:60%; left:70%; animation-delay:2s;}
+.flowers .flower:nth-child(4){top:30%; left:80%; animation-delay:3s;}
+.flowers .flower:nth-child(5){top:50%; left:55%; animation-delay:4s;}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+    <h1>A Love Letter, in Pixels</h1>
+    <p>To my sweetest, awesomest, most precious baby,<br>click Open</p>
+    <img src="https://i.imgur.com/ZK3LqYk.gif" style="width:150px; margin-bottom:20px;"><br>
+    <button id="openButton">Open</button><br><br>
+    <img src="https://i.imgur.com/2CkxrJ4.gif" style="width:150px; margin-top:20px;">
+    <div class="hearts"><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div><div class="heart"></div></div>
+    <div class="sparkles"><div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div><div class="spark"></div></div>
+    <div class="flowers"><div class="flower"></div><div class="flower"></div><div class="flower"></div><div class="flower"></div><div class="flower"></div></div>
+    <div class="shooting-star"></div><div class="shooting-star" style="animation-delay:1s;"></div><div class="shooting-star" style="animation-delay:2s;"></div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+    <h1>Dear Zia</h1>
+    <div class="text-bg">LOVE</div>
+
+    <div class="letter-box">
+        <!-- Your letter content here -->
+        <p>there are so many things i want to say to you, things that refuse to fit inside quick messages or passing moments. they need space to breathe. they need stillness. they need the kind of care that loving you has always required. because loving you has never been rushed or careless. it has always been intentional, thoughtful, and grounded in choice.</p>
+
+<p>before you, i believed love had to be loud to be real. dramatic. unstable. heavy with uncertainty. i thought love meant constantly proving ur worth or bracing yourself for the moment it would leave. i thought it had to hurt to matter. then you entered my life so gently that you rewrote everything i thought i knew about love. you did not force it. you did not demand it. you did not wound me in the process. you simply showed me a different way by being exactly who you are.</p>
+
+<p>with you, love feels steady. it feels safe. it feels like a place where i can rest without fear of being abandoned the moment i exhale. you never made me earn ur affection. you never placed me in a position where i had to question my place in ur life. you chose me clearly, consistently, and softly. that clarity healed parts of me i did not even realize were still aching.</p>
+
+<p>u undedtsand, not only the words i speak, but the meaning beneath them. you notice when my voice shifts, when my energy changes, when something is wrong even when i say that i am fine. you never rush me to explain before i’m ready. you don’t interrogate my silence. you meet me where i am, not where i should be. in ur understanding, i feel held rather than exposed, safe rather than examined.</p>
+
+<p>you’re strong.
+ur strength doesn’t need volume to be undeniable. you carry responsibility with grace. you endure quietly. you remain grounded even when life presses heavily against you. hardship never hardens ur heart. you stay gentle, patient, and open, and that kind of strength humbles me every time i witness it.</p>
+
+<p>you are kind, even in difficult situations.
+you choose compassion even when it would be easier to withdraw. you stay considerate even when you’re tired, overwhelmed, or hurting. you never let pain turn you cruel. ur kindness isn’t accidental or convenient. it’s intentional. it’s practiced. it reflects the depth of ur character more clearly than words ever could.</p>
+
+<p>you persevere.
+you show up for ur responsibilities with commitment and integrity. you give ur full effort to the things that matter to you, ur goals, ur passions, the people you love. you don’t take shortcuts even when no one is watching. watching you build the life you believe in fills me with pride and quiet admiration.</p>
+
+<p>you’re honest.
+ur honesty feels safe rather than sharp. you speak truth even when it’s uncomfortable, even when it requires courage. you never hide behind silence or half-truths. bc of you, trust feels natural instead of risky. i never have to guess where i stand with you, and that certainty brings a peace i didn’t know before.</p>
+
+<p>you listen.
+you give ur full attention. you remember the smallest details i mention in passing. you hold onto the things that matter to me as if they matter to you din. you make me feel important without ever making it feel forced or performative, tbh that alone means everything.</p>
+
+<p>you’re patient.
+you give me room to grow, to stumble, to figure things out without judgment. you don’t rush my healing or my becoming. you walk beside me instead of pulling me forward, and that makes all the difference.</p>
+
+<p>you love gently. consistently. intentionally. you show up in the quiet ways, the check-ins, the steady presence. you choose effort over convenience, honesty over ease, commitment over comfort. ur love doesn’t demand. it stays.</p>
+
+<p>loving you has taught me that real love isn’t about intensity. it’s about attentiveness. it’s about choosing each other in ordinary moments. it’s about communication, patience, and faith.</p>
+
+<p>it’s about loving someone not bc you need them to complete you, but bc ur soul recognizes theirs and chooses to walk alongside it.</p>
+
+<p>i don’t love you bc you fill something missing in me.
+i love you bc you are whole. bc you stand firmly on ur own. loving you adds meaning, not dependency, to my life. you are ur own universe, and i’m endlessly grateful that i get to exist alongside you, learning you, respecting you, admiring you.</p>
+
+<p>i love how loving you feels like peace.
+i love how silence with you is comforting rather than empty.
+i love how ordinary moments feel sacred when they’re shared with you.
+i love how you make life softer, lighter, and more meaningful simply by being in it.</p>
+
+<p>i thank God for you, not only for the love you give me, but for the person you are when no one is watching. for ur character. for ur heart. for choosing a love that is wholesome, steady, and real.</p>
+
+<p>tbh God really works in ways beyond understanding, cuz there was a time when i didn’t believe in love at all. not in something lasting. not in something safe or true. i believed love was temporary or conditional, something people talked about more than they actually lived. i learned to protect myself by expecting nothing, by hoping very little, by convincing myself that love just wasn’t meant for me.</p>
+
+<p>and then there was you.</p>
+
+<p>you didn’t enter my life loudly or dramatically. you didn’t force love back into my hands. you simply existed as yourself, genuine, patient, honest. without realizing it, you restored love to a place i thought had closed forever. not the kind that overwhelms or wounds, but the kind that feels like coming home. the kind that restores faith instead of testing it.</p>
+
+<p>through you, love stopped feeling like a risk and started feeling like a gift. you showed me that love can be gentle and still be deep, steady and still be powerful, quiet and still be transformative. you reminded me that love doesn’t have to break you to be real. it can heal you. it can soften you. it can draw you closer to god rather than further away.</p>
+
+<p>loving you feels like grace.
+like answered prayers i didn’t know how to articulate. like God gently reminding me that even when i stopped believing in love, he never stopped believing in what it could become for me.</p>
+
+<p>in everything i do, you’re where my heart returns. in the middle of noise, responsibility, and days that move too quickly, it’s you my soul remembers. you aren’t a distraction from my life. you’re the quiet center of it.
+you live in the spaces i don’t always name. in the way my thoughts soften when i think of you. in the way my heart steadies when uncertainty creeps in. you’ve become a constant, because loving you has woven you into who i am.</p>
+
+<p>you’re the center my heart orbits.
+the place my spirit recognizes as home.
+even when my mind forgets details, schedules, or moments, my heart remembers you effortlessly. as i always say, the heart remembers what the mind forgets.</p>
+
+<p>my heart has memorized you.
+every artery, vein, and ventricle knows ur name.
+my blood carries the echo of you with every beat.
+my neurons fire in quiet patterns shaped like ur smile.
+my lungs learn the rhythm of ur laughter and circulate it through my chest like oxygen.
+even my body seems to recognize you on a cellular level, humming in time with ur presence.</p>
+
+<p>i love you with all my hypothalamus,
+for the dopamine you awaken,
+the oxytocin you leave lingering in my bloodstream,
+the norepinephrine that teaches my heart how to race for you.</p>
+
+<p>id seriously dedicate my whole life to loving you, if you let me</p>
+
+<p>yours, aleina
+</p>
+
+    </div>
+
+    <!-- Go Back button -->
+    <button onclick="goToPage(1)">Go Back</button><br><br>
+
+    <!-- GIF below button -->
+    <img src="https://i.imgur.com/WRonEyu.gif" style="width:150px; margin-top:20px;"><br>
+
+    <!-- Pink Audio controls under GIF -->
+    <audio id="bgMusic" autoplay loop controls style="margin-top: 20px; background-color: #deb8ce; border-radius: 8px; padding: 5px;">
+      <source src="https://www.dropbox.com/scl/fi/daeeqg2vg5ksgw3w64a5m/SpotiDown.App-Adore-You-Harry-Styles.mp3?rlkey=rbji3nl2eou5orsqbi683vxoe&st=101y4w5o&dl=1" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+</div>
+
+<script>
+function goToPage(pageNumber){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page'+pageNumber).classList.add('active');
+}
+
+/* Cursor trailing stars */
+document.addEventListener('mousemove', function(e){
+    const star = document.createElement('div');
+    star.style.position='absolute';
+    star.style.width='6px';
+    star.style.height='6px';
+    star.style.backgroundColor='#fff';
+    star.style.borderRadius='50%';
+    star.style.top=e.clientY+'px';
+    star.style.left=e.clientX+'px';
+    star.style.opacity=0.8;
+    star.style.pointerEvents='none';
+    star.style.transition='all 0.7s linear';
+    document.body.appendChild(star);
+    setTimeout(()=>star.remove(),700);
+});
+
+/* Confetti burst on Open */
+document.getElementById('openButton').addEventListener('click', function(){
+    for(let i=0;i<50;i++){
+        const conf = document.createElement('div');
+        conf.style.position='absolute';
+        conf.style.width='6px';
+        conf.style.height='6px';
+        conf.style.backgroundColor=`hsl(${Math.random()*360},100%,80%)`;
+        conf.style.top=window.innerHeight/2+'px';
+        conf.style.left=window.innerWidth/2+'px';
+        conf.style.opacity='1';
+        conf.style.borderRadius='50%';
+        conf.style.transition='all 1.5s ease-out';
+        document.body.appendChild(conf);
+        setTimeout(()=>{
+            conf.style.top=(Math.random()*window.innerHeight)+'px';
+            conf.style.left=(Math.random()*window.innerWidth)+'px';
+            conf.style.opacity='0';
+        },10);
+        setTimeout(()=>conf.remove(),1500);
+    }
+    goToPage(2);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
